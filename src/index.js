@@ -6,7 +6,12 @@ const selectBreed = document.querySelector('.breed-select');
 const loader = document.querySelector('.loader');
 const errorMessage = document.querySelector('.error');
 const catInfo = document.querySelector('.cat-info');
-
+const option = {
+  method: 'GET',
+  headers: {
+    'x-api-key': 'live_GlLLrkhfyAXMpVN9gz3L1JHuflduC33qUZbHMRGSkqLieZ5opc93sMLBSsfeX4vR',
+  },
+};
 getBreeds()
   .then(data => {
     loader.hidden = true;
@@ -27,7 +32,7 @@ getBreeds()
 function getBreeds() {
   loader.hidden = false;
   selectBreed.hidden = true;
-  return fetch(`${BASE_URL}${ENDPOINT}?${KEY}`).then(response => {
+  return fetch(`${BASE_URL}${ENDPOINT}`, option).then(response => {
     if (!response.ok) {
       errorMessage.hidden = false;
       throw new Error(response.message);
@@ -63,7 +68,7 @@ function onChange(event) {
   const selectedBreed = event.target.value;
   console.log(`Selected breed ID: ${selectedBreed}`);
   loader.hidden = false;
-  fetch(`${BASE_URL}images/search?breed_ids=${selectedBreed}&${KEY}`)
+  fetch(`${BASE_URL}images/search?breed_ids=${selectedBreed}`, option)
     .then(response => {
       if (!response.ok) {
         errorMessage.hidden = false;
